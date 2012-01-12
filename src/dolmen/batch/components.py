@@ -59,7 +59,7 @@ class Batcher(object):
     def batch_url(self, batch):
         start_param = self.prefix + ".start"
         size_param = self.prefix + ".size"
-        params = [(k,v) for k, v in self.request.form.items()
+        params = [(k, v) for k, v in self.request.form.items()
                   if k not in (start_param, size_param)]
         params.append((start_param, batch.start))
         params.append((size_param, batch.size))

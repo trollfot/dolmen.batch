@@ -20,6 +20,9 @@ install_requires = [
 
 tests_require = [
     'cromlech.browser [test]',
+    'cromlech.io',
+    'grokcore.component [test]',
+    'zope.location',
     ]
 
 setup(name=name,
