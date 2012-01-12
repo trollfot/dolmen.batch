@@ -1,0 +1,22 @@
+Example
+=======
+
+Creating the environement
+-------------------------
+
+  >>> from cromlech.io import IPublicationRoot
+  >>> from cromlech.browser.testing import TestHTTPRequest
+  >>> from zope.location import Location
+  >>> from zope.interface import directlyProvides
+  >>> from dolmen.location import get_absolute_url
+
+  >>> request = TestHTTPRequest()
+  >>> context = Location()
+  >>> context.__parent__ = None
+  >>> context.__name__ = 'test_context'
+  >>> directlyProvides(context, IPublicationRoot)
+
+We should be able to resolve the url of our object ::
+
+  >>> get_absolute_url(context, request)
+  
