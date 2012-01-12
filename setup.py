@@ -13,12 +13,13 @@ install_requires = [
     'cromlech.i18n',
     'dolmen.location',
     'dolmen.template',
+    'setuptools',
     'z3c.batching',
     'zope.interface',
     ]
 
 tests_require = [
-    'cromlech.brower [test]',
+    'cromlech.browser [test]',
     ]
 
 setup(name=name,

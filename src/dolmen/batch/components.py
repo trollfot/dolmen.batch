@@ -29,10 +29,11 @@ class Batcher(object):
         self.url = absolute_url(self.context, self.request)
         self.prefix = prefix
         self.size = size
+        self.batch = None
 
     @property
     def available(self):
-        return self.batch is not None and self.batch.batches
+        return bool(self.batch is not None and len(self.batch.batches))
 
     def previous(self):
         batch = self.batch.batches[0]
@@ -76,6 +77,6 @@ class Batcher(object):
         return ILanguage(self.request, None)
 
     def render(self, *args, **kwargs):
-        if self.available:
+        if not self.available:
             return u''
         return self.template.render(self, target_language=self.target_language)
