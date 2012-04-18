@@ -18,6 +18,28 @@ def template_path(filename):
     return path.join(TEMPLATES_DIR, filename)
 
 
+def safe_str(v):
+    if isinstance(v, str):
+        return v
+    elif isinstance(v, unicode):
+        return v.encode('utf-8')
+    else:
+        raise TypeError("Can't urlencode param %s" % v)
+
+
+def flatten_params(params):
+    for k, v in params.items():
+        if isinstance(v, (str, unicode)):
+           yield k, v
+        else:
+            try:
+                iterator = iter(v)
+                for i in iterator:
+                        yield k, i
+            except TypeError:
+                yield k, str(v)
+
+
 class Batcher(object):
     implements(IRenderer)
 
@@ -59,7 +81,8 @@ class Batcher(object):
     def batch_url(self, batch):
         start_param = self.prefix + ".start"
         size_param = self.prefix + ".size"
-        params = [(k, v) for k, v in self.request.form.items()
+        params = [(k, safe_str(v))
+                  for k, v in flatten_params(self.request.form)
                   if k not in (start_param, size_param)]
         params.append((start_param, batch.start))
         params.append((size_param, batch.size))

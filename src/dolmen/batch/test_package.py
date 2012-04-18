@@ -72,3 +72,35 @@ def test_batch():
     batcher = Batcher(root, request)
     batcher.update(sequence)
     assert not XMLDiff(batcher.render(), BATCHED_ADV)
+
+
+def test_batch_unicode_param():
+
+    sequence = range(10)
+    
+    class Publishable(Location):
+        implements(IPublicationRoot)
+
+    root = Publishable()
+    request = TestHTTPRequest(
+                form={'batch.size': 2, 'batch.start': 4, 'x':u'héhô'})
+    batcher = Batcher(root, request)
+    batcher.update(sequence)
+    batcher.render()  # must not raise
+
+
+def test_batch_multi_param():
+
+    sequence = range(10)
+    
+    class Publishable(Location):
+        implements(IPublicationRoot)
+
+    root = Publishable()
+    request = TestHTTPRequest(
+                form={'batch.size': 2, 'batch.start': 4, 'x':[u'a', u'b']})
+    batcher = Batcher(root, request)
+    batcher.update(sequence)
+    assert ('http://localhost?x=a&amp;x=b&amp;batch.start=0&amp;batch.size=2'
+            in batcher.render())
+    

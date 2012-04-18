@@ -1,6 +1,13 @@
 Changelog
 =========
 
+0.1.2 (2012-04-18)
+------------------
+
+* handling unicode in params
+* handling multiple params
+
+
 0.1.1 (2012-01-17)
 ------------------
 

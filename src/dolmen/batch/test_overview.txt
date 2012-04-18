@@ -4,6 +4,8 @@ Example
 Grokking the needed packages
 ----------------------------
 
+::
+
   >>> from grokcore.component import testing
   >>> testing.grok('dolmen.location')
 
@@ -29,10 +31,10 @@ Then we create a context and a request for the batch::
   >>> context.__name__ = 'test_context'
 
 
-At this point, we should be able to resolve the url of our object ::
+At this point, we should be able to resolve the url of our object::
 
   >>> from dolmen.location import get_absolute_url
-  >>> get_absolute_url(context, request)
+  >>> get_absolute_url(context, request).lower()
   'http://localhost/test_context'
 
 
