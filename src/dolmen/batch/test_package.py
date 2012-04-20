@@ -86,7 +86,9 @@ def test_batch_unicode_param():
                 form={'batch.size': 2, 'batch.start': 4, 'x':u'héhô'})
     batcher = Batcher(root, request)
     batcher.update(sequence)
-    batcher.render()  # must not raise
+    content = batcher.render()  # must not raise
+    # assert page param is url encoded
+    assert 'http://localhost?x=h%C3%A9h%C3%B4' in content
 
 
 def test_batch_multi_param():
