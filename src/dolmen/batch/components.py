@@ -3,9 +3,9 @@
 from os import path
 from urllib import urlencode
 
-from cromlech.browser import IRenderer
+from cromlech.browser import IRenderable
 from cromlech.i18n import ILanguage
-from dolmen.location import absolute_url
+from dolmen.location import get_absolute_url
 from dolmen.template import TALTemplate
 from z3c.batching.batch import Batch
 from zope.interface import implements
@@ -41,14 +41,14 @@ def flatten_params(params):
 
 
 class Batcher(object):
-    implements(IRenderer)
+    implements(IRenderable)
 
     template = TALTemplate(template_path('batch.pt'))
 
     def __init__(self, context, request, prefix='batch', size=10):
         self.context = context
         self.request = request
-        self.url = absolute_url(self.context, self.request)
+        self.url = get_absolute_url(self.context, self.request)
         self.prefix = prefix
         self.size = size
         self.batch = None
@@ -102,4 +102,5 @@ class Batcher(object):
     def render(self, *args, **kwargs):
         if not self.available:
             return u''
-        return self.template.render(self, target_language=self.target_language)
+        return self.template.render(
+            self, target_language=self.target_language, **self.namespace())

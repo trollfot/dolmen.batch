@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from cromlech.browser.testing import XMLDiff, TestHTTPResponse, TestHTTPRequest
-from cromlech.io.interfaces import IPublicationRoot
+from cromlech.browser.testing import XMLDiff, TestResponse, TestRequest
+from cromlech.browser import IPublicationRoot
 from dolmen.batch import Batcher
 from zope.interface import implements
 from zope.location import Location
@@ -58,17 +58,17 @@ def test_batch():
         implements(IPublicationRoot)
 
     root = Publishable()
-    request = TestHTTPRequest()
+    request = TestRequest()
     batcher = Batcher(root, request)
     batcher.update(sequence)
     assert not XMLDiff(batcher.render(), NO_BATCH)
 
-    request = TestHTTPRequest(form={'batch.size': 2})
+    request = TestRequest(form={'batch.size': 2})
     batcher = Batcher(root, request)
     batcher.update(sequence)
     assert not XMLDiff(batcher.render(), BATCHED)
 
-    request = TestHTTPRequest(form={'batch.size': 2, 'batch.start': 4})
+    request = TestRequest(form={'batch.size': 2, 'batch.start': 4})
     batcher = Batcher(root, request)
     batcher.update(sequence)
     assert not XMLDiff(batcher.render(), BATCHED_ADV)
@@ -82,7 +82,7 @@ def test_batch_unicode_param():
         implements(IPublicationRoot)
 
     root = Publishable()
-    request = TestHTTPRequest(
+    request = TestRequest(
                 form={'batch.size': 2, 'batch.start': 4, 'x':u'héhô'})
     batcher = Batcher(root, request)
     batcher.update(sequence)
@@ -99,7 +99,7 @@ def test_batch_multi_param():
         implements(IPublicationRoot)
 
     root = Publishable()
-    request = TestHTTPRequest(
+    request = TestRequest(
                 form={'batch.size': 2, 'batch.start': 4, 'x':[u'a', u'b']})
     batcher = Batcher(root, request)
     batcher.update(sequence)

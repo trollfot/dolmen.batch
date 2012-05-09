@@ -15,7 +15,7 @@ Creating the environement
 First, we need a root to be able to compute the URL::
 
   >>> from zope.location import Location
-  >>> from cromlech.io import IPublicationRoot
+  >>> from cromlech.browser import IPublicationRoot
   >>> from zope.interface import directlyProvides
 
   >>> root = Location()
@@ -23,9 +23,9 @@ First, we need a root to be able to compute the URL::
 
 Then we create a context and a request for the batch::
 
-  >>> from cromlech.browser.testing import TestHTTPRequest
+  >>> from cromlech.browser.testing import TestRequest
 
-  >>> request = TestHTTPRequest()
+  >>> request = TestRequest()
   >>> context = Location()
   >>> context.__parent__ = root
   >>> context.__name__ = 'test_context'
@@ -83,7 +83,7 @@ If there's the same amount or less than the size, there's no other pages::
 
 Let's try to reach the next pages on a normal batch::
 
-  >>> request = TestHTTPRequest({'batch.start': 5})
+  >>> request = TestRequest({'batch.start': 5})
 
   >>> batching = Batcher(context, request, size=2)
   >>> batching.batch_info()
@@ -111,7 +111,7 @@ Let's try to reach the next pages on a normal batch::
 
 the URLs should compute according to the present GET parameters::
 
-  >>> request = TestHTTPRequest({'batch.start': 5, 'framework': 'Cromlech'})
+  >>> request = TestRequest({'batch.start': 5, 'framework': 'Cromlech'})
   >>> batching = Batcher(context, request, size=2)
   >>> batching.update(seq)
 

@@ -4,15 +4,15 @@ from setuptools import setup, find_packages
 from os.path import join
 
 name = 'dolmen.batch'
-version = '0.1.2'
+version = '0.2'
 readme = open(join('src', 'dolmen', 'batch', 'README.txt')).read()
 history = open(join('docs', 'HISTORY.txt')).read()
 
 install_requires = [
-    'cromlech.browser >= 0.3a2',
+    'cromlech.browser >= 0.5',
     'cromlech.i18n',
-    'dolmen.location',
-    'dolmen.template',
+    'dolmen.location >= 0.2',
+    'dolmen.template >= 0.2',
     'setuptools',
     'z3c.batching',
     'zope.interface',
@@ -20,7 +20,6 @@ install_requires = [
 
 tests_require = [
     'cromlech.browser [test]',
-    'cromlech.io',
     'grokcore.component [test]',
     'zope.location',
     ]
